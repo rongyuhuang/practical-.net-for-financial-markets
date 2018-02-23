@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ch2", "Ch2", "{973AC9C8-B84A-4F5A-B793-6B7AAA15D15C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIThreadUpdate", "UIThreadUpdate\UIThreadUpdate.csproj", "{D8197074-AE56-457B-9D8B-0E925A8280C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8197074-AE56-457B-9D8B-0E925A8280C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8197074-AE56-457B-9D8B-0E925A8280C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8197074-AE56-457B-9D8B-0E925A8280C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8197074-AE56-457B-9D8B-0E925A8280C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D8197074-AE56-457B-9D8B-0E925A8280C0} = {973AC9C8-B84A-4F5A-B793-6B7AAA15D15C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E5057729-12C7-4910-8385-FDF27655C48E}
+	EndGlobalSection
+EndGlobal

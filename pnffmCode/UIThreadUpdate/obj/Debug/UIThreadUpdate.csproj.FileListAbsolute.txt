@@ -1,0 +1,10 @@
+D:\Examples\practical-.net-for-financial-markets\pnffmCode\UIThreadUpdate\bin\Debug\UIThreadUpdate.exe.config
+D:\Examples\practical-.net-for-financial-markets\pnffmCode\UIThreadUpdate\bin\Debug\UIThreadUpdate.exe
+D:\Examples\practical-.net-for-financial-markets\pnffmCode\UIThreadUpdate\bin\Debug\UIThreadUpdate.pdb
+D:\Examples\practical-.net-for-financial-markets\pnffmCode\UIThreadUpdate\obj\Debug\UIThreadUpdate.csprojResolveAssemblyReference.cache
+D:\Examples\practical-.net-for-financial-markets\pnffmCode\UIThreadUpdate\obj\Debug\UIThreadUpdate.Form1.resources
+D:\Examples\practical-.net-for-financial-markets\pnffmCode\UIThreadUpdate\obj\Debug\UIThreadUpdate.Properties.Resources.resources
+D:\Examples\practical-.net-for-financial-markets\pnffmCode\UIThreadUpdate\obj\Debug\UIThreadUpdate.csproj.GenerateResource.Cache
+D:\Examples\practical-.net-for-financial-markets\pnffmCode\UIThreadUpdate\obj\Debug\UIThreadUpdate.csproj.CoreCompileInputs.cache
+D:\Examples\practical-.net-for-financial-markets\pnffmCode\UIThreadUpdate\obj\Debug\UIThreadUpdate.exe
+D:\Examples\practical-.net-for-financial-markets\pnffmCode\UIThreadUpdate\obj\Debug\UIThreadUpdate.pdb
