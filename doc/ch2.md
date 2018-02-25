@@ -976,6 +976,7 @@ demonstrates how orders are processed concurrently using a thread pool:
 			new Order("MSFT"));
 			ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessOrder),
 			new Order("CSCO"));
+
 			Console.ReadLine();
 		}
 		public static void ProcessOrder(object order)
@@ -990,7 +991,10 @@ accepts two arguments; the first argument represents the method to be executed o
 and is defined by an instance of the WaitCallBack delegate. The second argument specifies user-defined
 data passed to the method referenced by the WaitCallBack delegate instance. Based on this declaration,
 you define the ProcessOrder static method, which drives the actual processing logic of an individual order.
-Asynchronous Delegate Infrastructure
+
+
+### 2.4.2 异步代理架构 Asynchronous Delegate Infrastructure
+
 The .NET Framework, with the help a delegate, provides a new asynchronous execution pattern that
 allows you to execute any method asynchronously. As you know, a delegate is basically an object-
 oriented representation of a function pointer, and it can represent any method as long as the method
@@ -1015,29 +1019,38 @@ asynchronous infrastructure to process the order, which in turn generates trades
 	{
 		//Order Domain class
 		public class Order{}
+
 		//Trade Domain class
 		public class Trade{}
+
 		//Delegate used to process order, which in turn returns trades
 		//generated as a result of this new order
 		public delegate Trade[] OrderHandler(Order order);
+
 		static void Main(string[] args)
 		{
 			//instantiate a new order
 			Order newOrder = new Order();
+
 			//create a delegate instance that refers to the processing order
 			//method
 			OrderHandler processOrder = new OrderHandler(ProcessOrder);
+
 			//begin the processing order in an asynchronous fashion
 			IAsyncResult orderResult = processOrder.BeginInvoke(newOrder,null,null);
+
 			//blocks the current thread until the processing of the order
 			//that is executed on a thread-pool thread is completed
 			orderResult.AsyncWaitHandle.WaitOne();
+
 			//collect the trades generated as a result of
 			//asynchronous order processing
 			Trade[] trades = processOrder.EndInvoke(orderResult);
+
 			//display the trades
 			Console.WriteLine("Total Trade Generated : " +trades.Length);
 		}
+
 		//order processing
 		public static Trade[] ProcessOrder(Order order)
 		{
@@ -1073,54 +1086,63 @@ the status of the asynchronous operation; instead, a notification method is regi
 initiation of the asynchronous operation, and the asynchronous infrastructure invokes this method
 on the completion of the operation. Another great benefit of this approach is that the processing of
 both the asynchronous operation and the notifications are executed on thread-pool threads.
-To further demonstrate this concept, the following code notifies trades using a callback
-mechanism:
-using System;
-class OrderProcessorCallback
-{
-//Order Domain class
-public class Order{}
-//Trade Domain class
-public class Trade{}
-//Delegate used to process order, which in turn returns trades
-//generated as a result of this new order
-public delegate Trade[] OrderHandler(Order order);
-static void Main(string[] args)
-{
-//instantiate a new order
-Order newOrder = new Order();
-//create a delegate instance that refers to the processing order
-//function
-OrderHandler processOrder = new OrderHandler(ProcessOrder);
-//callback function to be invoked when order processing is completed
-AsyncCallback processComplete = new AsyncCallback(TradeGenerated);
-//begin the processing order in an asynchronous fashion
-//passing the callback delegate instance
-IAsyncResult orderResult =
-processOrder.BeginInvoke(newOrder,processComplete,processOrder);
-Console.ReadLine();
-}
-//order processing
-public static Trade[] ProcessOrder(Order order)
-{
-//Process the order
-//ideally submit it to the matching engine
-//and get the tradesC H A P T E R 2 ■ T H E O R D E R - M AT C H I N G E N G I N E 63
-//Let's assume we hit some trades for this order
-return new Trade[]{new Trade()};
-}
-//callback notification after successfully processing order
-public static void TradeGenerated(IAsyncResult result)
-{
-//retrieve the correct method delegate reference
-OrderHandler processOrder = ((AsyncResult)result).AsyncDelegate as OrderHandler;
-//collect the trades generated as a result of
-//asynchronous order processing
-Trade[] trades = processOrder.EndInvoke(result);
-//display the trades
-Console.WriteLine("Total Trade Generated : " +trades.Length);
-}
-}
+To further demonstrate this concept, the following code notifies trades using a callback mechanism:
+
+	using System;
+	class OrderProcessorCallback
+	{
+		//Order Domain class
+		public class Order{}
+		
+		//Trade Domain class
+		public class Trade{}
+		
+		//Delegate used to process order, which in turn returns trades
+		//generated as a result of this new order
+		public delegate Trade[] OrderHandler(Order order);
+		
+		static void Main(string[] args)
+		{
+			//instantiate a new order
+			Order newOrder = new Order();
+
+			//create a delegate instance that refers to the processing order
+			//function
+			OrderHandler processOrder = new OrderHandler(ProcessOrder);
+
+			//callback function to be invoked when order processing is completed
+			AsyncCallback processComplete = new AsyncCallback(TradeGenerated);
+
+			//begin the processing order in an asynchronous fashion
+			//passing the callback delegate instance
+			IAsyncResult orderResult =
+			processOrder.BeginInvoke(newOrder,processComplete,processOrder);
+			Console.ReadLine();
+		}
+
+		//order processing
+		public static Trade[] ProcessOrder(Order order)
+		{
+			//Process the order
+			//ideally submit it to the matching engine
+			//and get the trades
+			//Let's assume we hit some trades for this order
+			return new Trade[]{new Trade()};
+		}
+
+		//callback notification after successfully processing order
+		public static void TradeGenerated(IAsyncResult result)
+		{
+			//retrieve the correct method delegate reference
+			OrderHandler processOrder = ((AsyncResult)result).AsyncDelegate as OrderHandler;
+			//collect the trades generated as a result of
+			//asynchronous order processing
+			Trade[] trades = processOrder.EndInvoke(result);
+			//display the trades
+			Console.WriteLine("Total Trade Generated : " +trades.Length);
+		}
+	}
+
 To enable asynchronous callback notification, the caller must register the callback method
 during the initiation of BeginInvoke. This method accepts two extra parameters that are specifically
 related to the callback notification. The first parameter is an instance of the AsyncCallback delegate
@@ -1132,7 +1154,9 @@ ter that represents the asynchronous token. On receiving the method completion n
 code inside the callback method must invoke EndInvoke on the correct delegate instance to obtain
 the result. To do this, you must cast the IAsyncResult parameter to the AsyncResult object in order
 to access the AsyncDelegate property that returns the correct delegate instance.
-Manual Thread Management
+
+### 2.4.3 手工管理线程 Manual Thread Management
+
 Creating threads manually is the most conventional approach of handling asynchronous-based
 operations or introducing parallelism in applications. When threads are constructed manually,
 developers are solely responsible for the proper synchronization and handling of interthread com-
@@ -1149,7 +1173,8 @@ of a program. A wrong variable value can change the program execution adversely,
 results. Such diversion in the execution of programs to an unexpected state or inconsistent state is
 highly visible in multithreaded applications. This is because usually one copy of data is shared
 across multiple threads. So, when multiple threads read shared data at the same time and issue an
-update operation, then the last thread update is preserved, overwriting the previous thread’s update.64C H A P T E R 2 ■ T H E O R D E R - M AT C H I N G E N G I N E
+update operation, then the last thread update is preserved, overwriting the previous thread’s update.
+
 This is called a race condition and, if not handled properly, could result in corrupted data and could
 seriously hamper the overall flow of the application. To avoid race conditions, you must protect the
 code in such a way that it is accessible to only one thread at a time; in other words, the code must be
@@ -1169,55 +1194,58 @@ section of code. To release the exclusive ownership, use Monitor.Exit. Notice th
 Monitor.Enter and Monitor.Exit are paired methods and weave thread-safe code.
 The following code example demonstrates how to use Monitor in implementing a central order
 book in which multiple threads access this shared resource:
-using System;
-using System.Collections;
-using System.Threading;
-class SyncOrder
-{
-//Order Domain Model
-public class Order
-{
-public string Instrument;
-public Order(string inst)
-{
-Instrument = inst;
-}
-}
-//Order book that stores an individual order
-public class OrderBook
-{
-//arrays to hold orders
-ArrayList orderList = new ArrayList();
-//synchronization object
-private object syncObj = new object();
-public void Add(object order)
-{
-Order newOrder = order as Order;
-//acquire exclusive synchronization lock
-//start of critical section
-lock(syncObj)
-{
-Console.WriteLine("Order Received : " +newOrder.Instrument);
-//Add order into array list
-orderList.Add(order);
-//update the downstream systemC H A P T E R 2 ■ T H E O R D E R - M AT C H I N G E N G I N E 65
-}
-//end of critical section
-}
-}
-static void Main(string[] args)
-{
-//create order book
-OrderBook orderBook = new OrderBook();
-//start pumping orders
-Order order = new Order("MSFT");
-Order order1 = new Order("GE");
-//start updating the order book with multiple orders on multiple threads
-ThreadPool.QueueUserWorkItem(new WaitCallback(orderBook.Add),order);
-ThreadPool.QueueUserWorkItem(new WaitCallback(orderBook.Add),order1);
-Console.ReadLine();
-}
-}
+
+	using System;
+	using System.Collections;
+	using System.Threading;
+	class SyncOrder
+	{
+		//Order Domain Model
+		public class Order
+		{
+			public string Instrument;
+			public Order(string inst)
+			{
+				Instrument = inst;
+			}
+		}
+
+		//Order book that stores an individual order
+		public class OrderBook
+		{
+			//arrays to hold orders
+			ArrayList orderList = new ArrayList();
+			//synchronization object
+			private object syncObj = new object();
+			public void Add(object order)
+			{
+				Order newOrder = order as Order;
+				//acquire exclusive synchronization lock
+				//start of critical section
+				lock(syncObj)
+				{
+				Console.WriteLine("Order Received : " +newOrder.Instrument);
+				//Add order into array list
+				orderList.Add(order);
+				//update the downstream system
+				}
+				//end of critical section
+			}
+		}
+		static void Main(string[] args)
+		{
+			//create order book
+			OrderBook orderBook = new OrderBook();
+			//start pumping orders
+			Order order = new Order("MSFT");
+			Order order1 = new Order("GE");
+			//start updating the order book with multiple orders on multiple threads
+			ThreadPool.QueueUserWorkItem(new WaitCallback(orderBook.Add),order);
+			ThreadPool.QueueUserWorkItem(new WaitCallback(orderBook.Add),order1);
+			Console.ReadLine();
+		}
+	}
+
 This code example depicts a real-life scenario of a central order book that is a shared resource
 and is subject to concurrent access by multiple threads. The operation typically performed on this
 shared resource is usually an insert or update of orders. Therefore, it is extremely important to serial-
