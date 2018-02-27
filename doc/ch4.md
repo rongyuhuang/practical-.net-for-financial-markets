@@ -1,63 +1,36 @@
-C H A P T E R 4
-■ ■ ■
-The Broadcast Engine
-99
-percent perspiration + 1 percent luck = 100 percent success
-In this chapter, we explain what market data is and its importance in the trading world. Market data
-reflects information about the performance of an organization as a whole; several actors in the
-trading world depend upon this information. The important fact about this information is that it is
-time critical. Furthermore, market data information requires no further intelligence or any kind of
-sophisticated processing; it just needs to be forwarded from one end to another. Such data forwarding
-demands a good amount of groundwork from systems that utilize a network communication library,
-which forms the basis of this chapter’s technical sections; we will discuss various aspects of the net-
-work programming model in detail.
-What Is Market Data?
-Financial engineers, dealers, and traders require timely and accurate information about the securities
-they trade in so they can arrive at a proper price for them. Changing market scenarios and world
-events keep altering perceptions about the value of financial assets, and hence these factors also
-change their prices. For most financial assets, these changes are so fast that they translate into price
-changes every second. Every change in price represents an opportunity for dealers to either buy these
-assets and build more positions or sell these assets and square these positions to book profit or loss.
-Dealers and traders whose positions run into the millions of dollars pay special attention to these
-changing scenarios, which could change the prices of assets they hold or intend to trade in. The moment
-they see a rate favorable to them, they buy the asset and dispose of it when they have reasons to believe
-that they are overpriced. These perceptions and beliefs that dealers have about financial assets are
-made possible by the market data available to them (of course, their judgment is also a key contributor)
-through an exchange trading system or through other third-party market data service providers such
-as Reuters, Bloomberg, Moneyline Telerate, and so on.
-Market data can be defined as information that traders need for analysis to make informed
-trading decisions while trading in a market. Since the scope of this book is equities only, we will
-cover the market data requirements and associated issues for equities. Going by the definition, you
-can classify the following information as market data:
-171172C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E
-  Quotes such as bid/offer rates for a particular financial instrument (including stocks, bonds,
-derivatives, and so on) that is either traded in a market such as an exchange or available for
-transaction in an interbank or other financial market
-  News such as earnings reports, raw news, senior management speeches, and any other
-information that could impact the profitability and in turn stock prices
-  Macro- and micro-economic data and related analysis relating to gross domestic product
-(GDP), gross national product (GNP), employment ratios, import and export figures, fiscal
-deficit, and other economic data
+# 第四章 广播引擎 The Broadcast Engine
+
+*99 percent perspiration + 1 percent luck = 100 percent success*
+
+In this chapter, we explain what market data is and its importance in the trading world. Market data reflects information about the performance of an organization as a whole; several actors in the trading world depend upon this information. The important fact about this information is that it is time critical. Furthermore, market data information requires no further intelligence or any kind of sophisticated processing; it just needs to be forwarded from one end to another. Such data forwarding demands a good amount of groundwork from systems that utilize a network communication library,which forms the basis of this chapter’s technical sections; we will discuss various aspects of the network programming model in detail.
+
+## 4.1 什么是行情数据 What Is Market Data?
+
+Financial engineers, dealers, and traders require timely and accurate information about the securities they trade in so they can arrive at a proper price for them. Changing market scenarios and world events keep altering perceptions about the value of financial assets, and hence these factors also change their prices. For most financial assets, these changes are so fast that they translate into price changes every second. Every change in price represents an opportunity for dealers to either buy these assets and build more positions or sell these assets and square these positions to book profit or loss.
+
+Dealers and traders whose positions run into the millions of dollars pay special attention to these changing scenarios, which could change the prices of assets they hold or intend to trade in. The moment they see a rate favorable to them, they buy the asset and dispose of it when they have reasons to believe that they are overpriced. These perceptions and beliefs that dealers have about financial assets are made possible by the market data available to them (of course, their judgment is also a key contributor) through an exchange trading system or through other third-party market data service providers such as Reuters, Bloomberg, Moneyline Telerate, and so on.
+
+Market data can be defined as information that traders need for analysis to make informed trading decisions while trading in a market. Since the scope of this book is equities only, we will cover the market data requirements and associated issues for equities. Going by the definition, you can classify the following information as market data:
+
+  Quotes such as bid/offer rates for a particular financial instrument (including stocks, bonds,derivatives, and so on) that is either traded in a market such as an exchange or available for transaction in an interbank or other financial market
+
+  News such as earnings reports, raw news, senior management speeches, and any other information that could impact the profitability and in turn stock prices
+
+  Macro- and micro-economic data and related analysis relating to gross domestic product (GDP), gross national  product (GNP), employment ratios, import and export figures, fiscal deficit, and other economic data
+
   Analyst reports/opinions on stocks, bonds, and other investment instruments
+
   News about competitors and related information
-Market data is normally provided in the form of a broadcast to its subscribed recipients. This
-broadcast is provided either by exchanges or by third-party market data service providers. The timely
-receipt of market data is one of the highest priorities for any institution’s information technology (IT)
-and dealing rooms. Stale information could mean delayed action and missed opportunities for the
-institution; hence, a lot of emphasis is put on obtaining this data on a real-time basis.
-Participants in the Market Data Industry
+
+ Market data is normally provided in the form of a broadcast to its subscribed recipients. This broadcast is provided either by exchanges or by third-party market data service providers. The timely receipt of market data is one of the highest priorities for any institution’s information technology (IT) and dealing rooms. Stale information could mean delayed action and missed opportunities for the institution; hence, a lot of emphasis is put on obtaining this data on a real-time basis.
+
+### 4.1.1 行情数据行业的参与者 Participants in the Market Data Industry
+
 The following are the participants in the market data industry:
-Stock exchanges: Stock exchanges are one of the prime generators of market data. They constantly
-broadcast the prevailing rates of all securities traded on that exchange, as well as volume and
-depth information. Most exchanges also provide data about the total number of trades, the
-number of securities advanced in a day, the number of declines, the total volume of transactions,
-the total percentage of transactions that resulted in delivery, and so on. All this information is
-useful for traders, analysts, and brokers who have an interest in the securities listed and traded
-on that stock exchange. Most exchanges sell this data either directly or through other market
-data service providers such as Reuters and Bloomberg. This is a major source of revenue for
-many exchanges. Some exchanges are known to earn about 35 percent of their annual revenues
-through the sale of market data. Since the generation of this data is continuous and a lot of
-trading interest is built on these exchanges, many firms subscribe to these data services.
+
+Stock exchanges: Stock exchanges are one of the prime generators of market data. They constantly broadcast the prevailing rates of all securities traded on that exchange, as well as volume and depth information. Most exchanges also provide data about the total number of trades, the number of securities advanced in a day, the number of declines, the total volume of transactions,the total percentage of transactions that resulted in delivery, and so on. All this information is useful for traders, analysts, and brokers who have an interest in the securities listed and traded on that stock exchange. Most exchanges sell this data either directly or through other market
+data service providers such as Reuters and Bloomberg. This is a major source of revenue for many exchanges. Some exchanges are known to earn about 35 percent of their annual revenues through the sale of market data. Since the generation of this data is continuous and a lot of trading interest is built on these exchanges, many firms subscribe to these data services.
+
 Issuers: Since most trading interest is centered on corporate- and government-issued securities,
 any news related to the performance of corporate changes in prices of their finished goods or
 raw materials, the fiscal position of the country, and micro- and macro-economic issues forms
@@ -72,7 +45,8 @@ quotes, messages, XML dumps, messages on mobile phones, messages on PDAs, and st
 ing video. Data service providers normally have two kinds of services: delayed and real time.
 Delayed data has multiple types; data with 5-minute, 10-minute, 15-minute, and 20-minute
 delays is the most common. Real-time data is far more expensive than delayed data. This dis-
-tinction exists to provide services at a lower cost to institutions that don’t need real-time data.C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E 173
+tinction exists to provide services at a lower cost to institutions that don’t need real-time data.
+
 Figure 4-1. Market data (Source: http://www.nyse.com; December 2, 2005)
 Recipients: These are institutions/people who are the consumers of market data. They are normally
 institutions that trade and maintain positions across various markets such as fixed-income secu-
@@ -81,9 +55,14 @@ normally trade across markets in several countries and hence look for service pr
 can give them data across various markets, exchanges, and countries. They either analyze raw
 data mentally or put it through a system that analyzes raw market data and converts it to a mean-
 ingful and usable form.
-Example of Market Data
+
+### 4.1.2 行情数据样例 Example of Market Data
+
 Figure 4-1 could qualify as an example of market data.
-Role of Market Data
+
+
+### 4.1.3 行情数据规则 Role of Market Data
+
 Market data has a lot of meaning and importance to professionals across the financial trading value
 chain. An institution buys market data to support professionals employed in that institution and to
 provide them with high-quality information that enables them to make informed decisions. Judg-
@@ -159,9 +138,7 @@ portfolio is valued constantly to arrive at an overall market-to-market profit/l
 tion, every security in the portfolio is chosen, and its valuation is calculated by multiplying the current
 prevailing price by the number of shares held in the portfolio. Such analysis is required on a contin-
 uous basis to take proactive steps for managing and minimizing risk, especially when the market is
-volatile. Sophisticated risk management techniques such as Value at Risk use the data about prices
-174C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N EC H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E 175
-prevailing in the past five years. Some use data such as current volatility, past volatility, and details
+volatile. Sophisticated risk management techniques such as Value at Risk use the data about prices prevailing in the past five years. Some use data such as current volatility, past volatility, and details
 about the correlation of movement of the stock with the index, and so on. It is clear that market data
 service providers cannot provide all these services. Institutions do a careful analysis to check what
 data they can get ready from market data service providers and what they need to store in their existing
@@ -176,11 +153,12 @@ Thus, you see that the market data service is crucial to everyone in the securit
 chain. However, most of the time data that is received from such service providers is in a raw form
 and needs a good amount of cleaning, processing, and value adding before various consumers of
 the data can use it.
-Market Data Service
-Market data service providers usually provide the same set of information. This explains why you
-get the same news when you move from one financial portal to another (chances are they have sub-
-scribed to the same service provider). Key differentiators in market service providers revolve around
-the following:
+
+
+### 4.1.4 行情数据服务 Market Data Service
+
+Market data service providers usually provide the same set of information. This explains why you get the same news when you move from one financial portal to another (chances are they have subscribed to the same service provider). Key differentiators in market service providers revolve around the following:
+
 Timeliness of data: This is whether data is coming real time or is delayed. If historical data is
 also available, then how long is the history? We devote the next section of this chapter to
 understanding why timeliness is important as far as market data is concerned.
@@ -205,6 +183,7 @@ information will be in a better position to arrive at a future valuation compare
 this information late. Assume that a fund manager sitting in the United States tracks a particular sec-
 tor such as chemicals closely, has a good grip on the sector, and has been able to make reasonable
 assessment of the sector and of the major companies in this sector.
+
 The fund manager knows that a company registered in the United States and producing Polypthalic
 Anhydride (PTA) is facing difficult times because one of its major raw materials, Dimethyl Terephthalate
 (DMT), has gone up in price drastically. The jump in price is so much that it begins threatening theprofitability of the company. The fund manager also knows that the sales of the company are strong
@@ -257,9 +236,7 @@ she will get the shares at $45.10.
 Now assume the salesperson was working on data she thinks is real time but is actually delayed.
 This means that on volatile days, the prices prevailing on the exchange at any given time are different
 from the prices the salesperson is seeing on her terminal. In this example, if the salesperson sends
-a market order to buy Microsoft Corporation stocks and the prices have actually moved to $46 by
-176C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N EC H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E 177
-then, her order will get filled at $46. This could irk the institution on behalf of which the purchase was
+a market order to buy Microsoft Corporation stocks and the prices have actually moved to $46 by then, her order will get filled at $46. This could irk the institution on behalf of which the purchase was
 made, and the salesperson will have to give a lot of explanation to explain this difference between
 the asked price and the executed price. If the salesperson gives a limit order to curtail this risk of
 overpriced execution, this order will not be executed since the market price has moved to $46.
@@ -276,7 +253,9 @@ tions accept these delays because either their trading interest or position in t
 is not very high or they don’t intend to trade in these markets/instruments in the near future. Or, maybe
 they have subscribed direct services from the exchange that is also providing real-time data through
 a separate channel and is being monitored by other dealers.
-Level Playing Field
+
+### 4.1.6 Level Playing Field
+
 After this discussion on the timeliness of market data, you are now in a position to appreciate why
 the availability of market data to all is important. This is to ensure that one recipient does not have
 any edge over another in terms of the timeliness of data or its content. The timing of market data is
@@ -295,7 +274,9 @@ timing of data dissemination, data quality, and provision of data backup and rec
 This brings an end to the business topics; in next section, we begin the journey into the network
 programming world and explain the relevant area that plays an important role in realizing this busi-
 ness case study.
-Introducing Networking
+
+## 4.2 网络简介 Introducing Networking
+
 Networking between computers brought revolutionary changes both in the digital world and in the
 human world. In the digital world, a new branch named distributed system was born. Distributed
 systems are built around networks, and one of the real-life examples of such a system is the Internet.
@@ -350,8 +331,10 @@ Communication between two nodes in a network is established using TCP/IP, but TC
 not a single protocol; it is a suite of protocols where each protocol is layered one on top of another.
 Figure 4-2 shows a condensed version of the most popular Open System Interconnection (OSI)
 model.
-178C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N EFigure 4-2. TCP/IP layers
-C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E 179
+
+Figure 4-2. TCP/IP layers
+
+
 A message triggered from a client is received and processed by all four layers depicted in Figure 4-2.
 An individual layer appends its own layer-specific information to the message before dispatching it
 to the destination. A similar action is carried out on the receiving end (the server); the layer-specific
@@ -384,18 +367,14 @@ the sender, and the other is the receiver. Both of these entities need to know e
 real-life analogy is a postal mailing address; to deliver an important parcel, it is mandatory to know
 the destination address as well as the source address, so in the case of a delivery failure, the parcel
 will be returned to the sender. So, in a TCP/IP-based network world, you need a similar addressing
-mechanism that allows the individual node to communicate with other nodes in a network. IP is180C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E
+mechanism that allows the individual node to communicate with other nodes in a network. IP is responsible for addressing nodes in a network by assigning a unique 32-bit address known as an IP address. The IP address, along with the addressing, is also responsible for the movement of the network packet between nodes. Figure 4-3 depicts a common scenario of finding out the IP address of the local host in a network.
+
 Figure 4-3. IPConfig output
 Figure 4-4. Bridging networks with routers
-responsible for addressing nodes in a network by assigning a unique 32-bit address known as an IP
-address. The IP address, along with the addressing, is also responsible for the movement of the net-
-work packet between nodes. Figure 4-3 depicts a common scenario of finding out the IP address of
-the local host in a network.
+
 In Figure 4-3, the IP address is denoted in four decimal-based integers, and each delimited
 digit occupies 8 bits, so a binary representation of 10.255.243.51 is 11000000 10101000 00000000
-01100100. A 32-bit IP address would theoretically allow 2
-32
-nodes in a network to be addressed, but
+01100100. A 32-bit IP address would theoretically allow 232 nodes in a network to be addressed, but
 in reality this is not how it works. The IP address is broken down into two parts; the first part stores
 the physical network ID, and the second part stores the unique ID of a node in that physical network.
 Hosts on the same physical network can directly communicate with each other; however, when an
@@ -405,7 +384,8 @@ A network router is a device that is connected to more than one network, and its
 to route packets from one network to another network. So, a router bridges a path between two separate
 networks, but the actual allotment of IP addresses in a network is implemented by following standard
 rules established by the Internet community. Five predefined network address classes determine the
-number of networks and number of hosts in a network (see Table 4-1).C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E 181
+number of networks and number of hosts in a network (see Table 4-1).
+
 Table 4-1. Network Address Classes
 Bytes Bytes Binary Number of
 Allocated Allocated Format Total Hosts per IP Address
@@ -453,7 +433,8 @@ a cornerstone of the TCP/IP communication backbone, and its limitations are nice
 upper layer.
 The IP datagram, along with the actual message to be delivered, also contains its own header
 fields that are required to properly route a message to the destination host. The following sections
-describe the key fields of the IP header and are categorized according to their usage.182C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E
+describe the key fields of the IP header and are categorized according to their usage.
+
 Addressing
 The two most important fields of the IP header are the source address and destination address. Both
 addresses represent the IP address of the sender and the destination host in a network, and each
@@ -493,7 +474,8 @@ IP layer. ICMP acts as a messenger that reports errors and feedbacks about activ
 a network. Activities such as a failure to transmit packets to a destination host are recorded and
 encapsulated inside an ICMP message; the sender is then notified of this message using the IP
 unreliable delivery service. ICMP messages are embedded inside the IP datagram and form part of
-the data section. The following are some of the most commonly noticed ICMP messages:C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E 183
+the data section. The following are some of the most commonly noticed ICMP messages:
+
 Figure 4-5. Ping output
 Echo request: An echo request message is generated to check the network availability of the
 remote host
@@ -520,11 +502,11 @@ because of its mapping capabilities, is also popularly known as a name server. I
 where the host name and its corresponding IP addresses are stored and retrieved on demand. DNS
 also provides a bidirectional resolution capability to resolve a host name to an IP address, and vice
 versa.
+
 The database of DNS is distributed; multiple DNS servers exist and are hierarchically arranged,
 and individual DNS servers know their parent DNS servers. When a DNS server receives a request to
 resolve a host name, a search is first conducted against its own local database. If the local database
-fails to satisfy the request, then DNS undertakes a “recursive resolution” mode where the request184C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E
-starts bubbling up to the parent DNS server. The immediate parent DNS then conducts a similar
+fails to satisfy the request, then DNS undertakes a “recursive resolution” mode where the request starts bubbling up to the parent DNS server. The immediate parent DNS then conducts a similar
 search operation in its local database, and on failure it delegates to its parent. This escalation is
 iterative in nature and terminates when it reaches the root DNS server where the final result is deter-
 mined. To speed up the resolving request, DNS also maintains a cache database; this caching technique
@@ -537,45 +519,49 @@ you to design a highly robust and scalable network application and are available
 System.Net and System.Net.Sockets namespaces.
 Listing 4-1 shows how to resolve a host name to its IP address.
 Listing 4-1. Host Translator
-using System;
-using System.Net;
-namespace HostTranslator
-{
-class Translator
-{
-[STAThread]
-static void Main(string[] args)
-{
-//Get Local Host Name
-string hostName = Dns.GetHostName();
-Console.WriteLine("Local HostName : " +hostName);
-//Ask user to enter IP address or host name
-Console.Write("Enter IP Address or Host Name : ");
-string hostOrip =Console.ReadLine();
-//Resolve the host/IP address
-IPHostEntry entry = Dns.Resolve(hostOrip );
-Console.WriteLine("HostName : " +entry.HostName);
-//Get the IP address list that resolves to the host names
-foreach(IPAddress address in entry.AddressList)
-{
-Console.WriteLine("IP Address : " +address.ToString());
-byte[] addressBytes = address.GetAddressBytes();
-for(int ctr=0;ctr<addressBytes.Length;ctr++)
-{
-Console.WriteLine("Byte : " +ctr +" : " +addressBytes[ctr]);
-}
-}
-}
-}
-}
+
+	using System;
+	using System.Net;
+	namespace HostTranslator
+	{
+		class Translator
+		{
+			[STAThread]
+			static void Main(string[] args)
+			{
+				//Get Local Host Name
+				string hostName = Dns.GetHostName();
+				Console.WriteLine("Local HostName : " +hostName);
+				//Ask user to enter IP address or host name
+				Console.Write("Enter IP Address or Host Name : ");
+				string hostOrip =Console.ReadLine();
+				//Resolve the host/IP address
+				IPHostEntry entry = Dns.Resolve(hostOrip );
+				Console.WriteLine("HostName : " +entry.HostName);
+				//Get the IP address list that resolves to the host names
+				foreach(IPAddress address in entry.AddressList)
+				{
+					Console.WriteLine("IP Address : " +address.ToString());
+					byte[] addressBytes = address.GetAddressBytes();
+					for(int ctr=0;ctr<addressBytes.Length;ctr++)
+					{
+						Console.WriteLine("Byte : " +ctr +" : " +addressBytes[ctr]);
+					}
+				}
+			}
+		}
+	}
+
 In Listing 4-1, the program accepts either an IP address or a host name and then passes this infor-
 mation to the DNS service to resolve it. The DNS resolution service from a programmatic perspective is
 provided by the Dns class, and it supports both forward-lookup and reverse-lookup capabilities. When
 resolving is performed using a host name, it is known as forward lookup; similarly, when resolving is
 done using an IP address, it is known as reverse lookup. Both resolving techniques take place by
 a Resolve of the Dns class. Resolve is a time-intensive operation, and keeping this aspect in mind, Dns
-provides an asynchronous flavor of the Resolve method in the form of BeginResolve and EndResolve.C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E 185
+provides an asynchronous flavor of the Resolve method in the form of BeginResolve and EndResolve.
+
 Figure 4-6. HostTranslator console output
+
 The result returned by Resolve is encapsulated in an instance of the IPHostEntry class. The
 IPHostEntry class provides both the host name and IP address information; the host name is displayed
 by invoking the HostName property, and the IP address is displayed by accessing the AddressList
@@ -604,7 +590,8 @@ after dialing this number, the customer is connected to the Interactive Voice Re
 that lists all the bank’s services and their corresponding extension numbers. The customer dials the
 appropriate extension, and the call is transferred to a customer representative who is specifically
 trained in the selected customer service area. The gist of this example is to further widen your under-
-standing that in the computer network world, the toll-free number is the IP address, and the extension186C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E
+standing that in the computer network world, the toll-free number is the IP address, and the extension
+
 Figure 4-7. Market data producer (MDP) and market data consumer (MDC)
 number is the port number. Moreover, multiple applications are specialized to provide different
 kinds of services. To avail of this service, it is mandatory to know both the IP address and the port
@@ -634,43 +621,45 @@ scenario, where there is a single producer and multiple consumers of the market 
 Figure 4-7).
 Listing 4-2 shows the code for the market data producer service.
 Listing 4-2. Market Data Producer (Using UDP)
-using System;
-using System.Collections.Specialized;
-using System.Collections;
-using System.Net.Sockets;
-using System.Net;
-using System.Text;
-namespace MDP
-{
-class MDP
-{C H A P T E R 4 ■ T H E B R O A D C A S T E N G I N E 187
-[STAThread]
-static void Main(string[] args)
-{
-Console.WriteLine("Market-Data Producer Service Started");
-//Market Data
-string mktPrice = "MSFT;25,IBM;24";
-//Market Data Recipient List
-EndPoint[] mdcEndPointList = new EndPoint[]{new
-IPEndPoint(IPAddress.Loopback,30000)};
-//Build a network data conduit
-Socket mdpSocket = new
-Socket(AddressFamily.InterNetwork,SocketType.Dgram,ProtocolType.Udp);
-//Convert the data into array of bytes
-byte[] sendBuffer = new byte[512];
-sendBuffer = Encoding.ASCII.GetBytes(mktPrice);
-//Iterate through recipient list, and transmit the data
-foreach(EndPoint mdcEndPoint in mdcEndPointList )
-{
-mdpSocket.SendTo(sendBuffer,mdcEndPoint);
-}
-Console.WriteLine("Market Data Sent to all Market-Data consumer clients");
-Console.ReadLine();
-//Free the resources
-mdpSocket.Close();
-}
-}
-}
+
+	using System;
+	using System.Collections.Specialized;
+	using System.Collections;
+	using System.Net.Sockets;
+	using System.Net;
+	using System.Text;
+	namespace MDP
+	{
+		class MDP
+		{
+			[STAThread]
+			static void Main(string[] args)
+			{
+				Console.WriteLine("Market-Data Producer Service Started");
+				//Market Data
+				string mktPrice = "MSFT;25,IBM;24";
+				//Market Data Recipient List
+				EndPoint[] mdcEndPointList = new EndPoint[]{new
+				IPEndPoint(IPAddress.Loopback,30000)};
+				//Build a network data conduit
+				Socket mdpSocket = new
+				Socket(AddressFamily.InterNetwork,SocketType.Dgram,ProtocolType.Udp);
+				//Convert the data into array of bytes
+				byte[] sendBuffer = new byte[512];
+				sendBuffer = Encoding.ASCII.GetBytes(mktPrice);
+				//Iterate through recipient list, and transmit the data
+				foreach(EndPoint mdcEndPoint in mdcEndPointList )
+				{
+				mdpSocket.SendTo(sendBuffer,mdcEndPoint);
+				}
+				Console.WriteLine("Market Data Sent to all Market-Data consumer clients");
+				Console.ReadLine();
+				//Free the resources
+				mdpSocket.Close();
+			}
+		}
+	}
+
 The program described in Listing 4-2 plays the role of a market data producer (the server); it
 internally maintains a list of clients with whom the market price information is shared. With this
 code, you also mark the beginning of your journey into the socket programming world. The two
