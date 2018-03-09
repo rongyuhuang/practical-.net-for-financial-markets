@@ -1,131 +1,84 @@
 # 第三章 数据转化引擎 The Data Conversion Engine
-Parents are the real programmers who programmed us. It is because of their continuous refactoring
-and unit testing effort that we turn out to live a bug-free life in this unmanaged world.
-This chapter provides insight into the problems encountered during data conversion. Simply defined,
-data conversion is the process of decomposing data structured in an incompatible data format and
-recomposing it again using different semantics and a different data format. During this conversion,
-data is structurally rearranged. Data conversion occupies a central place in organizations with busi-
-ness goals that depend on the integration of multiple applications. These applications may be legacy
-systems, homegrown applications, or vendor-based applications. In this chapter, we discuss the
-various hurdles faced in the financial world during the data conversion process and how XML provides
-a solution to these problems.
-Introducing Data Management
-Data originates from a variety of sources. Many times, the same data is presented in different for-
-mats. Figure 3-1 illustrates how information is consumed from different newspapers. Although the
-information produced in each of these newspapers is the same, the information differs in style, rep-
-resentation, and structure. For example, the New York Times may publish sports news on page 16 in
-a columnar format, the Star Ledger may produce the same information as a summary on page 1
-with details on the last page of the paper, and Fox Magazine may publish the same information with
-less verbiage and more emphasis on pictures and a small description at the bottom of each picture.
-The primary objective of all these newspapers is to publish accurate information/data, but each
-one adopts a totally different approach and style. This is called information enlargement where the
-integrity of data is maintained but presented differently.
-105106C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E
-A human brain weighs just 3.5 pounds, but it is one of the most complex organs and continu-
-ously interprets data for us. In the computing world, however, things are different—machines lack
-consciousness, intellect, and capacity for thought. Although computers are better than the human
-brain in calculating speed and power, they have to be specifically instructed/coded to conduct/
-perform/execute an activity. However, it will always be true no matter how much progress we make
-in technology advancements that there is no substitute for human creativity, diligence, and judgment.
-Thus, if Figure 3-1 is to be replicated in a computing environment, a new program has to be
-developed to interpret the needs of the New York Times, the Star Ledger, and Fox Magazine. This trend
-does not stop here; in the future, if a new newspaper comes into the market, then a new program
-specifically to interpret the information published by this newspaper needs to be developed. The truth
-is that every organization reinvests/mobilizes funds for “interpreting” already “interpreted” data.
-In the financial world, various applications use a lot of data related to securities, prices, market
-conditions, clients, and other entities for the fulfillment of trade. Applications do trade enrichment
-on the basis of this data and also make a lot of decisions. Data comes from a variety of sources. Market
-data, news, and analysis are bought from third-party content service providers such as Reuters, and
-the institutions generate the rest themselves in the normal course of their day-to-day activities. The
-latter relates to transaction- and settlement-related data. Institutions obtain some data from agencies
-such as stock exchanges, clearing corporations, regulators, and so on, by virtue of being members of
-those agencies. Maintaining this data is expensive. Some data has to be purchased, and some has to
-be filtered (unnecessary data has to be removed), validated, and stored.
-Understanding the Business Infoset
-Business infoset is synonymous to information; it comprises a lot of data items in various forms. What
-and how an organization decides on various issues largely depends upon the kind of data that is
-presented to its business managers, including its presentation format and perspective. Business
-infoset can be decomposed into granular data elements. Each data element has its own characteris-
-tics and can be classified as one of the following:
-  Reference data
-  Variable data
-  Derived data
-  Computed data
-  Static data
-Figure 3-1. The same information originates from multiple sources and in a different format.C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E 107
+
+***P**arents are the real programmers who programmed us. It is because of their continuous refactoring and unit testing effort that we turn out to live a bug-free life in this unmanaged world.*
+
+This chapter provides insight into the problems encountered during data conversion. Simply defined,data conversion is the process of decomposing data structured in an incompatible data format and recomposing it again using  different semantics and a different data format. During this conversion,data is structurally rearranged. Data conversion occupies a central place in organizations with business goals that depend on the integration of multiple applications. These applications may be legacy systems, homegrown applications, or vendor-based applications. In this chapter, we discuss the various hurdles faced in the financial world during the data conversion process and how XML provides a solution to these problems.
+
+本章介绍了在数据转换过程中遇到的问题。简单地说，数据转换是使用不同语义和不同数据格式来解码互不兼容的数据格式并recomposing它的处理过程。在这转换过程中，数据在结构上被重新排列。数据转换在 那些业务目标依赖多应用集成的组织中 占据中心位置。这些应用可能是遗留系统、自主研发的应用或者是经纪商的应用。本章我们将讨论在金融领域中进行数据转化遇到的各种问题，并提供基于XML的解决方案。
+
+## 3.1 数据管理简介 Introducing Data Management
+
+Data originates from a variety of sources. Many times, the same data is presented in different formats. Figure 3-1 illustrates how information is consumed from different newspapers. Although the information produced in each of these newspapers is the same, the information differs in style, representation, and structure. For example, the New York Times may publish sports news on page 16 in a columnar format, the Star Ledger may produce the same information as a summary on page 1 with details on the last page of the paper, and Fox Magazine may publish the same information with less verbiage and more emphasis on pictures and a small description at the bottom of each picture.
+
+![Figure 3-1](./ch3/3-1.png)
+
+The primary objective of all these newspapers is to publish accurate information/data, but each one adopts a totally different approach and style. This is called information enlargement where the integrity of data is maintained but presented differently.
+
+A human brain weighs just 3.5 pounds, but it is one of the most complex organs and continuously interprets data for us. In the computing world, however, things are different—machines lack consciousness, intellect, and capacity for thought. Although computers are better than the human brain in calculating speed and power, they have to be  specifically instructed/coded to conduct/perform/execute an activity. However, it will always be true no matter how much progress we make in technology advancements that there is no substitute for human creativity, diligence, and judgment.
+
+Thus, if Figure 3-1 is to be replicated in a computing environment, a new program has to be developed to interpret the needs of the New York Times, the Star Ledger, and Fox Magazine. This trend does not stop here; in the future, if a new newspaper comes into the market, then a new program specifically to interpret the information published by this newspaper needs to be developed. The truth is that every organization reinvests/mobilizes funds for  “interpreting” already “interpreted” data.
+
+In the financial world, various applications use a lot of data related to securities, prices, market conditions, clients, and other entities for the fulfillment of trade. Applications do trade enrichment on the basis of this data and also make a lot of decisions. Data comes from a variety of sources. Market data, news, and analysis are bought from third-party content service providers such as Reuters, and the institutions generate the rest themselves in the normal course of their day-to-day activities. The latter relates to transaction- and settlement-related data. Institutions obtain some data from agencies such as stock exchanges, clearing corporations,regulators, and so on, by virtue of being members of those agencies. Maintaining this data is expensive. Some data has to be purchased, and some has to be filtered (unnecessary data has to be removed), validated, and stored.
+
+## 3.2 理解业务信息集 Understanding the Business Infoset
+
+Business infoset is synonymous to information; it comprises a lot of data items in various forms. What and how an organization decides on various issues largely depends upon the kind of data that is presented to its business managers, including its presentation format and perspective. Business infoset can be decomposed into granular data elements. Each data element has its own characteristics and can be classified as one of the following:
+
+* Reference data
+* Variable data
+* Derived data
+* Computed data
+* Static data
+
 To understand this classification, let’s discuss various attributes of an order, as shown in
 Table 3-1.
 Table 3-1. Attributes of an Order
-Order Attribute Description Type of Data
-Market of operation Geography from where order is placed Static data
-Client code Client placing the order Reference data
-Exchange Stock exchange on which the order is being Reference data
-placed
-Traded asset/ISIN/SEDOL/ Security that needs to be transacted Reference data
-scrip code
-Company name Name of the company issuing shares Derived data
-Order type Buy/sell Static data
-Quantity Number of shares to be purchased Variable data
-Order price Price at which the client expects his Variable data
-order to get through
-Currency Currency of transaction Reference data
-Segment Exchange segment Reference data
-Broker code/Counterparty Counterparty Reference data
-Order validity Date and time conditions Variable data
-Reference Data
-Reference data is any data that is created and maintained outside the purview of the system but is
-required by the system to meet business or computational needs. To meet these needs, systems
-may decide to maintain a copy of reference data or have links to other systems and use the link to
-access this data on an online or real-time basis. Reference data is used to categorize transactional
-data and can be used to link to data from other organizations.
-Variable Data
-Data whose value changes over a period of time is called variable data. Variable data may or may
-not lie in a fixed range, but its values can be random and unpredictable. A typical example is a stock
-price. Stock prices depend upon the market perception of the earnings and on the cash flows a company
-can generate, but the day-to-day price is impossible to predict. Prices also keep changing on a daily
-basis. Hence, stock prices fall under variable data. Similarly, a company’s earnings keep changing
-from quarter to quarter so can also be classified as variable data.
-Derived Data
-Derived data is any data that derives its value from any other data. For example, if you have a list of
-countries and capitals and you try to access the capital using a country—say by retrieving the capi-
-tal by using “United States of America” and getting the value “Washington DC”—then “Washington
-DC” (capital) becomes derived data since its value is based on the value “United States of America”
-(country). In this chapter’s example of order attributes (see Table 3-1), the company name becomes
-derived data, because its value depends upon the International Securities Identification Number
-(ISIN) code.Figure 3-2. Reference data plays a central role in all functions.
-Computed Data
-Any data that results from manipulating other data or another set of data is called computed data.
-For example, if you attempt to calculate the average stock price quoted across the month, the
-resulting average figure will be computed data because its value is derived using some computation
-over some other set of base data.
-Static Data
+| Order Attribute | Description | Type of Data |
+| ---- | ---- | ---- |
+| Market of operation | Geography from where order is placed | Static data |
+| Client code | Client placing the order | Reference data |
+| Exchange | Stock exchange on which the order is being placed | Reference data |
+| Traded asset/ISIN/SEDOL/ scrip code | Security that needs to be transacted | Reference data |
+| Company name | Name of the company issuing shares | Derived data |
+| Order type | Buy/sell | Static data |
+| Quantity | Number of shares to be purchased | Variable data |
+| Order price | Price at which the client expects his order to get through | Variable data |
+| Currency | Currency of transaction | Reference data |
+| Segment | Exchange segment | Reference data |
+| Broker code/Counterparty | Counterparty | Reference data |
+| Order validity | Date and time conditions | Variable data |
+
+### 3.2.1 Reference Data
+
+Reference data is any data that is created and maintained outside the purview of the system but is required by the system to meet business or computational needs. To meet these needs, systems may decide to maintain a copy of reference data or have links to other systems and use the link to access this data on an online or real-time basis. Reference data is used to categorize transactional data and can be used to link to data from other organizations.
+
+### 3.2.2 Variable Data
+
+Data whose value changes over a period of time is called variable data. Variable data may or may not lie in a fixed range, but its values can be random and unpredictable. A typical example is a stock price. Stock prices depend upon the market perception of the earnings and on the cash flows a company can generate, but the day-to-day price is impossible to predict. Prices also keep changing on a daily basis. Hence, stock prices fall under variable data. Similarly, a company’s earnings keep changing from quarter to quarter so can also be classified as variable data.
+
+### 3.2.3 Derived Data
+
+Derived data is any data that derives its value from any other data. For example, if you have a list of countries and capitals and you try to access the capital using a country—say by retrieving the capital by using “United States of America” and getting the value “Washington DC”—then “Washington DC” (capital) becomes derived data since its value is based on the value “United States of America” (country). In this chapter’s example of order attributes (see Table 3-1), the company name becomes derived data, because its value depends upon the International Securities Identification Number (ISIN) code.Figure 3-2. Reference data plays a central role in all functions.
+
+### 3.2.4 Computed Data
+
+Any data that results from manipulating other data or another set of data is called computed data.For example, if you attempt to calculate the average stock price quoted across the month, the resulting average figure will be computed data because its value is derived using some computation over some other set of base data.
+
+### 3.2.5 Static Data
+
 Static data is data whose value does not change over a period of time. In the order attribute example
 in Table 3-1, the order type (that is, “buy” or “sell”) is an example of static data. Even if you revisit the
 order type after a long time, each order will still be either “buy” or “sell.”
-Introducing Reference Data
-Data is the lifeblood of any organization. The success of an organization also depends on the quality
-of data it possesses, because strategic decisions may be based on the data. Every act of an organiza-
-tion requires input of data and generates (or enhances) data at the end of the activity. Financial
-institutions and organizations are making a lot of investments in the area of reference data manage-
-ment. Though institutions maintain reference data for their quick reference, they rely on other
-agencies to create this data and supply it to them. They then upload a copy of this data in their sys-
-tem and use it for quick reference to add value to their transactional data. Departments and operations
-have traditionally been compartmentalized in the form of front, middle, and back offices, and each
-department forms its own systems to cater to its needs. This results in the duplication of activity
-because each operational area tends to replicate a lot of referential data within its own system to
-reduce its interdependence on other systems. This also gives rise to another problem of having and
-managing redundant reference data.
-Note that even when institutions import required reference data in their systems, they also need
-to convert it into a format defined in their systems and acceptable to it. This acceptable format and
-content changes as data moves down from one link in the value chain to another. This calls for a lot
-of conversion even during the life cycle of a single trade. Let’s examine the business need of convert-
-ing this data using the trading value chain and examine this concept in more detail (see Figure 3-2).
-108C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N EC H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E 109
-The trading value chain is divided into front office, middle office, and back office (described in
-Chapter 1). We will look at these concepts in more detail here. An order is originated and is delivered
-to the exchange by the front office. Dealers interact with investing institutions to get their orders,
-and when the order is executed, they charge brokerage from those deals. The order flows through
-a defined process (discussed in Chapter 1).
+
+## 3.3 引用数据简介 Introducing Reference Data
+
+Data is the lifeblood of any organization. The success of an organization also depends on the quality of data it possesses, because strategic decisions may be based on the data. Every act of an organization requires input of data and generates (or enhances) data at the end of the activity. Financial institutions and organizations are making a lot of investments in the area of reference data management. Though institutions maintain reference data for their quick reference, they rely on other agencies to create this data and supply it to them. They then upload a copy of this data in their system and use it for quick reference to add value to their transactional data. Departments and operations have traditionally been compartmentalized in the form of front, middle, and back offices, and each department forms its own systems to cater to its needs. This results in the duplication of activity because each operational area tends to replicate a lot of referential data within its own system to
+reduce its interdependence on other systems. This also gives rise to another problem of having and managing redundant reference data.
+
+Note that even when institutions import required reference data in their systems, they also need to convert it into a format defined in their systems and acceptable to it. This acceptable format and content changes as data moves down from one link in the value chain to another. This calls for a lot of conversion even during the life cycle of a single trade. Let’s examine the business need of converting this data using the trading value chain and examine this concept in more detail (see Figure 3-2).
+
+The trading value chain is divided into front office, middle office, and back office (described in Chapter 1). We will look at these concepts in more detail here. An order is originated and is delivered to the exchange by the front office. Dealers interact with investing institutions to get their orders,and when the order is executed, they charge brokerage from those deals. The order flows through a defined process (discussed in Chapter 1).
+
 The middle office holds the reference data that is shared between the front office and the back
 office. At most places, the middle office is also responsible for risk management on the orders that
 hit the trading system and for orders getting converted into trades during the process. The middle
@@ -167,7 +120,8 @@ code for its reference. Each exchange uses its own proprietary code for trading,
 are designed to support their proprietary codes. In the front office itself, we come across the potential
 to use three different codes while referring to one security. A data mapping mechanism will hence
 be required to interpret these codes while the information passes on so that each entity understands
-the information completely and without ambiguity, as shown in Figure 3-3.110C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E
+the information completely and without ambiguity, as shown in Figure 3-3.
+
 Now let’s examine where reference data comes into use in this entire order flow chain. The
 institution placing the order will use a system to maintain a portfolio. Assuming a global investor,
 the client holding the position will be maintained locally in different countries, and each will have
@@ -231,7 +185,8 @@ built with the thought that reference data would be coming from a legacy system.
 established methodology for migrating/importing this data in the new system. Of course, the first-
 time migration/import takes a lot of time because of field-level mapping and the finalization of the
 structure. However, once the structure is finalized, subsequent imports do not require this kind of
-effort. Let’s examine the conversion methodology in some detail.112C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E
+effort. Let’s examine the conversion methodology in some detail.
+
 The entire step of populating data from a legacy system to a new system comprises the follow-
 ing two broad processes:
   Cleansing the data received from the source system
@@ -275,7 +230,8 @@ The deployment of XML for the data cleansing process provides speedy and effecti
 In its basic form, the data cleansing process has three stages, as shown in Figure 3-5:
   Import and conversion
   Cleansing
-  EnrichmentC H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E 113
+  Enrichment
+
 Figure 3-5. Steps in cleaning reference data
 Import and Conversion
 In the first step, data is extracted from multiple sources such as legacy applications, customer rela-
@@ -300,7 +256,8 @@ two securities, then the system needs to analyze such cases and correct them. Al
 lected, and correct codes are found by checking other systems, by contacting a third-party data service
 provider, or by contacting the agency that generates ISIN codes in the specific country. Multiple scans
 of the same data through the same business validations may be required to arrive at a correct and
-clean repository.114C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E
+clean repository.
+
 Enrichment
 In this step, the existing data set is analyzed critically to see whether any further information needs
 to be tagged along with the data that is being cleaned. For example, while compiling the ISIN-related
@@ -340,7 +297,8 @@ financial institutions are looking at outsourcing the data management and except
 process to further reduce costs.
 ■Note Vilfredo Pareto was an economist who during 1906 created a theory that 20 percent of the population in
 his country owns 80 percent of the wealth. This principle was then followed in various other areas such as quality
-management, marketing management, and business.C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E 115
+management, marketing management, and business.
+
 This brings an end to the business section, and we will continue the ISIN master example to
 see how to do data conversion from a technical perspective. We will discuss the technical issues
 encountered in each step so you can understand how the concepts are implemented in real life.
@@ -385,7 +343,7 @@ ISINMASTER12122004
 US5949181045,MSFT,10,5,Active
 EXCHANGE,NASDAQ,MSFT.O
 EXCHANGE,NYSE,MSFT.N
-ISINEOF116C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E
+ISINEOF
 Listing 3-2. ISIN Master (XML Format)
 <ISINMaster>
 <ISIN ISINCode="US5949181045"
@@ -430,13 +388,10 @@ Context-oriented data (COD) cannot be accessed on its own; it must be referenced
 For example, referring to the CSV version of the ISIN master (in Listing 3-1), it would be difficult to
 extract the data “MSFT” because multiple occurrences of “MSFT” exist. You can extract the data
 only after providing the context in the form of row and column numbers. Hence, in this example,
-you must provide row 2 and column 2 to obtain the data “MSFT” falling under this context. OnceC H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E 117
-again, keep in mind that this context may differ for different types of text files. For example, in
-a fixed-based file format, you can extract the context by passing the offset position and length of the
-data to be extracted. In an XML-based document, the context is provided in the form of an element
-or attribute name. Such uniformity in the context allows a standard mechanism to programmatically
-access the data.
+you must provide row 2 and column 2 to obtain the data “MSFT” falling under this context. Once again, keep in mind that this context may differ for different types of text files. For example, in a fixed-based file format, you can extract the context by passing the offset position and length of the data to be extracted. In an XML-based document, the context is provided in the form of an element or attribute name. Such uniformity in the context allows a standard mechanism to programmatically access the data.
+
 Extensibility
+
 The CSV version of the ISIN master is fragile—if you insert a new column at the beginning of a row,
 then it will completely distort your interpretation. Starting from the user specification document
 and continuing to the data converter program, everything will need to be fixed. Fixed-based file for-
@@ -475,7 +430,7 @@ functionality. However, data is fetched/persisted solely in memory rather than
 in a physical file on disk. MemoryStream is a perfect candidate for short-lived
 temporary data that is generated on the fly and is accessed multiple times and
 eventually discarded upon the termination of an application.
-Continued118C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E
+Continued 
 Table 3-5. Continued
 Subclass Description
 BufferedStream Disk I/O–related operations, with their heavy-duty data spinning (reading or
@@ -520,42 +475,46 @@ These asynchronous flavors are available through the BeginRead and BeginWrite me
 The Stream class is fairly simple to use from a coding perspective. To prove it, we will demonstrate
 a code example that reads a comma-delimited text version of the ISIN master file from Listing 3-1.
 Stream is an abstract class; therefore, you need to use the FileStream class to read the contents of
-this file.C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E 119
+this file. 
 Listing 3-3 shows the example code.
 Listing 3-3. Reading the Comma-Delimited Version of the ISIN Master
-using System;
-using System.IO;
-using System.Text;
-class StreamExample
-{
-[STAThread]
-static void Main(string[] args)
-{
-//File to read
-string csvFile = @"C:\CodeExample\Chpt3\StreamExample\CSVISINMaster.csv";
-//Open a file stream in read/access mode
-FileStream isinStream = new FileStream(csvFile,FileMode.Open,FileAccess.Read);
-//allocate a byte array of size 10
-byte[] byteBuffer = new byte[10];
-//read until the stream pointer reaches the end of the file
-while (isinStream.Position < isinStream.Length )
-{
-//read data
-int byteRead= isinStream.Read(byteBuffer,0,byteBuffer.Length);
-//display data
-Console.Write(Encoding.ASCII.GetString(byteBuffer,0,byteRead));
-}
-//close stream
-isinStream.Close();
-}
-}
+
+	using System;
+	using System.IO;
+	using System.Text;
+	class StreamExample
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//File to read
+			string csvFile = @"C:\CodeExample\Chpt3\StreamExample\CSVISINMaster.csv";
+			//Open a file stream in read/access mode
+			FileStream isinStream = new FileStream(csvFile,FileMode.Open,FileAccess.Read);
+			//allocate a byte array of size 10
+			byte[] byteBuffer = new byte[10];
+			//read until the stream pointer reaches the end of the file
+			while (isinStream.Position < isinStream.Length )
+			{
+				//read data
+				int byteRead= isinStream.Read(byteBuffer,0,byteBuffer.Length);
+				//display data
+				Console.Write(Encoding.ASCII.GetString(byteBuffer,0,byteRead));
+			}
+			//close stream
+			isinStream.Close();
+		}
+	}
+
 The code shown in Listing 3-3 is pretty straightforward; you first allocate a byte array of size 10
 and then enter a loop that reads raw bytes into this byte array with the help of the Read method. The
 loop will terminate as soon as you have read all the bytes, which is determined with the help of the
 Position and Length properties of a Stream class. To display this raw byte on the console, you need
 to convert it into a string, which you do using the Encoding class available as part of the System.Text
 namespace.
-Introducing Specialized Streams
+
+## 3.6 Introducing Specialized Streams
+
 The .NET Framework provides special-purpose reader and writer classes whose inner workings are
 specialized based on specific characteristics of data. These classes are not inherited from the Stream
 class but are directly related to it when it comes to reading or writing data. The need for specializa-
@@ -567,8 +526,10 @@ string data type before displaying it on the console.
 Specialized stream classes are paired classes with the read and write operations decoupled and
 placed in their own separate classes. This is in direct contrast to the Stream class, which provides both
 the reads and writes under one roof. The following sections cover some common reader and writer
-classes available within the .NET Framework.120C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E
-TextReader and TextWriter
+classes available within the .NET Framework.
+
+### 3.6.1 TextReader and TextWriter
+
 Both TextReader and TextWriter classes are designed to read or write series of characters. The
 TextReader class allows reading groups of characters from an underlying stream. This underlying
 stream could fall under any one of the concrete stream classes such as MemoryStream or FileStream.
@@ -583,24 +544,26 @@ Stream, and similarly, the underlying data source of StringReader is backed by s
 The following code demonstrates how to use TextReader when reading the content of the CSV
 version of the ISIN master:
 using System;
-using System.IO;
-class TextStreamExample
-{
-[STAThread]
-static void Main(string[] args)
-{
-string csvFile = @"C:\CodeExample\Chpt3\TextStreamExample\CSVISINMaster.csv";
-//Open the CSV file
-TextReader isinReader = new StreamReader(csvFile);
-//read the entire content of the file
-string content = isinReader.ReadToEnd();
-//display content
-Console.WriteLine(content);
-//close the stream
-isinReader.Close();
-}
-}
-BinaryReader and BinaryWriter
+	using System.IO;
+	class TextStreamExample
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			string csvFile = @"C:\CodeExample\Chpt3\TextStreamExample\CSVISINMaster.csv";
+			//Open the CSV file
+			TextReader isinReader = new StreamReader(csvFile);
+			//read the entire content of the file
+			string content = isinReader.ReadToEnd();
+			//display content
+			Console.WriteLine(content);
+			//close the stream
+			isinReader.Close();
+		}
+	}
+
+### 3.6.2 BinaryReader and BinaryWriter
+
 Unlike TextReader and TextWriter, which were meant to handle ordinary text data, BinaryReader
 and BinaryWriter are designed to read and write primitive data types. Both classes preserve the
 encoding scheme, which is by default UTF-8, during read and write operations. BinaryReader and
@@ -609,62 +572,66 @@ data type in the data needs to be preserved.
 This feature is implemented by providing a collection of ReadXXX and overloaded Write methods
 that are specialized for reading or writing data of a particular data type. The following code demon-
 strates how to read and write ISIN data in the form of binary values:
-using System;
-using System.IO;
-namespace BinaryExample
-{
-struct ISINRecordC H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E 121
-{
-public string isinCode;
-public char securityType;
-public double faceValue;
-public long lotSize;
-}
-class BinaryExample
-{
-[STAThread]
-static void Main(string[] args)
-{
-string filePath = @"C:\CodeExample\Chpt3\isin.dat";
-//Initialize the ISIN data
-ISINRecord newRecord = new ISINRecord();
-newRecord.isinCode = "US5949181045";
-newRecord.faceValue = 10;
-newRecord.lotSize = 100;
-//Open binary file for writing
-FileStream fStream = new
-FileStream(filePath,FileMode.CreateNew,FileAccess.Write);
-//Create a binary writer
-BinaryWriter bwrt = new BinaryWriter(fStream);
-//write ISIN data
-bwrt.Write(newRecord.isinCode);
-bwrt.Write(newRecord.securityType);
-bwrt.Write(newRecord.faceValue);
-bwrt.Write(newRecord.lotSize);
-//Close the stream
-fStream.Close();
-ISINRecord isinRecord;
-//Open the binary file
-fStream = new FileStream(filePath,FileMode.Open,FileAccess.Read);
-//Create a binary reader
-BinaryReader br = new BinaryReader(fStream);
-//read ISIN code
-isinRecord.isinCode= br.ReadString();
-//read security type
-isinRecord.securityType= br.ReadChar();
-//read face value
-isinRecord.faceValue= br.ReadDouble();
-//read lot size
-isinRecord.lotSize = br.ReadInt32();
-}
-}
-}
-XmlReader and XmlWriter
+	using System;
+	using System.IO;
+	namespace BinaryExample
+	{
+		struct ISINRecord
+		{
+			public string isinCode;
+			public char securityType;
+			public double faceValue;
+			public long lotSize;
+		}
+		class BinaryExample
+		{
+			[STAThread]
+			static void Main(string[] args)
+			{
+				string filePath = @"C:\CodeExample\Chpt3\isin.dat";
+				//Initialize the ISIN data
+				ISINRecord newRecord = new ISINRecord();
+				newRecord.isinCode = "US5949181045";
+				newRecord.faceValue = 10;
+				newRecord.lotSize = 100;
+				//Open binary file for writing
+				FileStream fStream = new
+				FileStream(filePath,FileMode.CreateNew,FileAccess.Write);
+				//Create a binary writer
+				BinaryWriter bwrt = new BinaryWriter(fStream);
+				//write ISIN data
+				bwrt.Write(newRecord.isinCode);
+				bwrt.Write(newRecord.securityType);
+				bwrt.Write(newRecord.faceValue);
+				bwrt.Write(newRecord.lotSize);
+				//Close the stream
+				fStream.Close();
+				ISINRecord isinRecord;
+				//Open the binary file
+				fStream = new FileStream(filePath,FileMode.Open,FileAccess.Read);
+				//Create a binary reader
+				BinaryReader br = new BinaryReader(fStream);
+				//read ISIN code
+				isinRecord.isinCode= br.ReadString();
+				//read security type
+				isinRecord.securityType= br.ReadChar();
+				//read face value
+				isinRecord.faceValue= br.ReadDouble();
+				//read lot size
+				isinRecord.lotSize = br.ReadInt32();
+			}
+		}
+	}
+
+### 3.6.3 XmlReader and XmlWriter
+
 Considering the popularity of XML, the .NET Framework introduced two additional special-purpose
 XML classes that understand the well-formed discipline of XML data. These classes have been designed
 from the ground up to gain performance. The next sections discuss these classes and their important
-members in detail.122C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E
-Looking at the Types of Parsers
+members in detail.
+
+## 3.7 Looking at the Types of Parsers
+
 The .NET Framework provides several ways to read an XML document by offering different types of
 XML parsers. In the pre-.NET days, the only way to read an XML document was to install a separate
 set of Microsoft XML libraries. With the advent of .NET, XML parsers are built in and bundled as part
@@ -710,7 +677,8 @@ the modus operandi of reading the document. Hence, it is more parser driven than
 driven. Simple API for XML (SAX) parsers fall under this category and are designed specifically
 to overcome problems faced in the DOM, primarily the memory issue. Even though the .NET
 Framework has no direct support for SAX parsers, they are still available as part of the Microsoft
-XML 4.0 COM Library.C H A P T E R 3 ■ T H E D ATA C O N V E R S I O N E N G I N E 123
+XML 4.0 COM Library.
+
 Pull: Pull-based parsers are application driven and not parser driven. They provide unstinted
 and unconditional control to applications. Only applications have the sole authority over inter-
 ested elements or attributes and are free to discard the remaining unwanted information. The
